@@ -19,6 +19,12 @@ function scrapeClassInfo() {
     console.log("Scraping class info");
     const classesData = document.querySelectorAll('tr[id^="ccid"]');
     console.log(classesData.cells);
+
+    if (classesData.length === 0) {
+        console.log("No classes found");
+        return;
+    }
+
     let info = {};
     for (let classIndex = 0; classIndex < classesData.length; classIndex++) {
         let cName = classesData[classIndex]
