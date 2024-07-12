@@ -2,7 +2,7 @@
     "name": "New Tab for School",
     "description": "Add schedule and quick links to new tab page on another browser profile",
     "version": "4",
-    "manifest_version": 2,
+    "manifest_version": 3,
     "permissions": [
         "tabs",
         "activeTab",
@@ -29,7 +29,7 @@
             ]
         }
     ],
-    "browser_action": {
+    "action": {
         "default_icon": {
             "32": "icon.png"
         },
