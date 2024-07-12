@@ -1,13 +1,22 @@
 function scrapeClassInfo() {
 
-    chrome.storage.local.get(["info"], function (result) {
+    chrome.storage.local.get(["info"], (result) => {
         if (result["info"] == undefined) {
             console.log("No info found in storage");
         } else {
-            chrome.storage.local.set({ "raw": chrome.storage.local.get("raw") + JSON.stringify(result["info"]) + "\n" });
+            let info = result["info"];
+            let lastUpdatedTimestamp = info["lastUpdatedTimestamp"];
+            let currentTime = new Date().getTime();
+            let timeDifference = currentTime - lastUpdatedTimestamp;
+            let timeDifferenceInMinutes = timeDifference / 60_000;
+            if (timeDifferenceInMinutes < 5) {
+                console.log("Using cached data");
+                return;
+            }
         }
     });
 
+    console.log("Scraping class info");
     const classesData = document.querySelectorAll('tr[id^="ccid"]');
     console.log(classesData.cells);
     let info = {};
@@ -66,7 +75,21 @@ function scrapeClassInfo() {
     let setInfo = {};
     setInfo["info"] = info;
     chrome.storage.local.set(setInfo);
+
+    // from https://developer.chrome.com/docs/extensions/develop/concepts/messaging
+    // consider sending a message to a background script to rerender the newtab page internally
+    // (async () => {
+    //     const response = await chrome.runtime.sendMessage(info);
+    //     console.log(response);
+    // })();
+
+    if (scraperInterval === undefined)
+        scraperInterval = setInterval(scrapeClassInfo, 60_000);
 }
+
+let scraperInterval;
+
+window.addEventListener("load", scrapeClassInfo);
 
 scrapeClassInfo();
 document.body.style.backgroundColor = "#634b7099";
