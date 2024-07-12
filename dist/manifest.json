@@ -1,0 +1,18 @@
+{
+  "name": "New Tab for School",
+  "description": "Add schedule and quick links to new tab page on another browser profile",
+  "version": "1.2",
+  "manifest_version": 3,
+
+  "chrome_url_overrides" : {
+    "newtab": "index.html"
+  },
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "myotheremail@mudas.li",
+      "strict_min_version": "42.0"
+    }
+  }
+  
+}
