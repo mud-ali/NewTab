@@ -12,6 +12,8 @@ function scrapeClassInfo() {
             if (timeDifferenceInMinutes < 5) {
                 console.log("Using cached data");
                 return;
+            } else {
+                console.log("gonna update data now gimme a moment");
             }
         }
     });
@@ -84,10 +86,10 @@ function scrapeClassInfo() {
 
     // from https://developer.chrome.com/docs/extensions/develop/concepts/messaging
     // consider sending a message to a background script to rerender the newtab page internally
-    // (async () => {
-    //     const response = await chrome.runtime.sendMessage(info);
-    //     console.log(response);
-    // })();
+    (async () => {
+        const response = await chrome.runtime.sendMessage(info);
+        console.log(response);
+    })();
 
     if (scraperInterval === undefined)
         scraperInterval = setInterval(scrapeClassInfo, 60_000);
@@ -95,7 +97,6 @@ function scrapeClassInfo() {
 
 let scraperInterval;
 
-window.addEventListener("load", scrapeClassInfo);
-
 scrapeClassInfo();
-document.body.style.backgroundColor = "#634b7099";
+
+document.body.style.backgroundColor = "#134b7099";

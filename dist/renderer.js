@@ -227,11 +227,7 @@ function getContext() {
             console.log("No info found in storage");
         } else {
             let info = result["info"];
-            let lastUpdatedTimestamp = info["lastUpdatedTimestamp"];
-            let currentTime = new Date().getTime();
-            let timeDifference = currentTime - lastUpdatedTimestamp;
-            let timeDifferenceInMinutes = timeDifference / 60_000;
-            alert(timeDifferenceInMinutes);
+            console.log(info);
         }
     });
     return context;
