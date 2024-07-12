@@ -1,6 +1,6 @@
 import Handlebars from "handlebars";
 
-let source = require("./sched.hbs");
+let source = require("./sched.handlebars");
 const output = document.getElementById("sched");
 
 const colors = [
