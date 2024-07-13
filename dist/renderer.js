@@ -222,7 +222,20 @@ output.innerHTML = template(getContext());
 
 function parseSched(scheduleTime="11(R)") {
     // ex: 1(M)  3(M-T,R-F)   5(T-W,F)
-    let periods = scheduleTime.split("(")[0].split("-").map(pd => parseInt(pd));
+    let numMap = {
+        "1": "one",
+        "HR": "two",
+        "2": "three",
+        "3": "four",
+        "4": "five",
+        "5": "six",
+        "6": "seven",
+        "7": "eight",
+        "8": "nine",
+        "9": "ten"
+    };
+
+    let periods = scheduleTime.split("(")[0].split("-").map(pd => numMap[pd]);
     const daysOfWeek = ["M", "T", "W", "R", "F"];
     let daysRaw = scheduleTime.split("(")[1].replace(")", "").split(",");
 
@@ -243,10 +256,10 @@ function parseSched(scheduleTime="11(R)") {
     return [periods, days];
 }
 
-function getClasses() {
-    let classes = {};
+async function getClasses() {
+    let classes = [];
 
-    chrome.storage.local.get(["info"], (result) => {
+    await chrome.storage.local.get(["info"], async (result) => {
         if (result["info"] == undefined) {
             console.log("No info found in storage");
         } else {
@@ -255,21 +268,21 @@ function getClasses() {
             for (let i = 0; i < Object.keys(info).length; i++) {
                 let key = Object.keys(info)[i];
                 if (["lastUpdatedTimestamp", "name"].includes(key)) continue;
-                classes[key] = {
+                classes.push({
                     "name": key,
                     "teacher": info[key]["teacher"],
                     "room": info[key]["room"],
                     "schedInfo": parseSched(info[key]["schedule"])
-                };
+                });
             }
-            console.log(classes);
+            // console.log(classes);
         }
-    });
 
-    return classes;
+        return classes;
+    });
 }
 
-function getContext() {
+async function getContext() {
     let context = {
         "times": {
             "one": "8:00-8:50",
@@ -285,14 +298,12 @@ function getContext() {
         },
     };
 
-    let classes = getClasses();
-
     let daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-
-    for (let classI of Object.keys(classes)) {
-        console.log(classI);
-    }
-
+    const classList = getClasses();
+    getClasses().then((classes) => {
+        console.log(classes);
+    });
+    console.log(classList);
     return context;
 }
 
