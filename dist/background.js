@@ -1,5 +1,5 @@
 chrome.runtime.onInstalled.addListener(() => {
-    chrome.storage.local.set({ info: 'Your data here' }, function () {
+    chrome.storage.local.set({ infoo: 'Your data here' }, function () {
         console.log('Data is stored');
     });
 });

@@ -32,6 +32,19 @@ function scrapeClassInfo() {
         let cName = classesData[classIndex]
             .querySelector('td[class="table-element-text-align-start"]')
             .innerHTML.split("&nbsp;")[0].trim();
+        
+        let cTeacher = classesData[classIndex]
+            .querySelector('td[class="table-element-text-align-start"]')
+            .querySelectorAll('a')[1].innerHTML.replace("Email ", "")
+            .trim();
+
+        let cRoom = classesData[classIndex]
+            .querySelector('td[class="table-element-text-align-start"]')
+            .querySelectorAll('span')[2].innerHTML.replace("&nbsp;", "")
+            .trim();
+        
+        if (!Number.isNaN(parseInt(cRoom)))
+            cRoom = "Room " + cRoom;
 
         let tds = Array.from(classesData[classIndex].querySelectorAll("td"));
         let classSchedule = tds[0].innerText;
@@ -60,6 +73,8 @@ function scrapeClassInfo() {
 
         let cGrades = {
             "schedule": classSchedule,
+            "teacher": cTeacher,
+            "room": cRoom
         };
         for (let i = 0; i < cGradeKeys.length; i++) {
             cGrades[cGradeKeys[i]] = cGradeVals[i];
