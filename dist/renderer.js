@@ -1,5 +1,6 @@
 var template = Handlebars.templates.sched;
 const output = document.getElementById("sched");
+let classes = {}
 
 const colors = [
     "#bfa3d9",
@@ -38,7 +39,7 @@ function isDark(rgb) {
     let yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
     return (yiq < 128) ? "#fff" : "#000";
 }
-
+/*
 let classes = {
     "Research": {
         "name": "Research",
@@ -140,7 +141,7 @@ let classes = {
         "teacher": "",
         "room": ""
     }
-}
+}   
 
 let context = {
     "times": {
@@ -216,10 +217,32 @@ let context = {
         "nine": classes["PE"],
         "ten": classes["Sock"]
     }
-}
+} */
 
 output.innerHTML = template(getContext());
 
+function parseSched(scheduleTime="11(R)") {
+    // ex: 1(M)  3(M-T,R-F)   5(T-W,F)
+    let periods = scheduleTime.split("(")[0].split("-").map(pd => parseInt(pd));
+    const daysOfWeek = ["M", "T", "W", "R", "F"];
+    let daysRaw = scheduleTime.split("(")[1].replace(")", "").split(",");
+
+    let days = [];
+
+    for (let dayInfo of daysRaw) {
+        if (dayInfo.includes("-")) {
+            let start = daysOfWeek.indexOf(dayInfo.split("-")[0]);
+            let end = daysOfWeek.indexOf(dayInfo.split("-")[1]);
+
+            for (let i = start; i <= end; i++) {
+                days.push(daysOfWeek[i]);
+            }
+        } else {
+            days.push(dayInfo);
+        }
+    }
+    return [periods, days];
+}
 
 function getContext() {
     chrome.storage.local.get(["info"], (result) => {
@@ -227,9 +250,10 @@ function getContext() {
             console.log("No info found in storage");
         } else {
             let info = result["info"];
-            // console.log(info);
+            console.log(info);
             for (let i=0;i<Object.keys(info).length;i++) {
                 let key = Object.keys(info)[i];
+                if (["lastUpdatedTimestamp", "name"].includes(key)) continue;
                 classes[key] = {
                     "name": key,
                     "teacher": info[key]["teacher"],
@@ -240,7 +264,7 @@ function getContext() {
             console.log(classes);
         }
     });
-    return context;
+    return classes;
 }
 
 let classCells = document.getElementsByTagName("td");
