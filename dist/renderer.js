@@ -232,3 +232,28 @@ function getContext() {
     });
     return context;
 }
+
+let classCells = document.getElementsByTagName("td");
+let assignedColors = [];
+
+for (let i = 0; i < classCells.length; i++) {
+    let cell = classCells[i];
+    if (cell.innerHTML === "") {
+        continue;
+    }
+
+    let color = isUsed(assignedColors, cell.innerHTML);
+    if (color) {
+        cell.style.backgroundColor = color;
+        cell.style.color = isDark(color);
+        continue;
+    }
+
+    assignedColors.push({
+        'val': cell.innerHTML,
+        'color': colors[assignedColors.length]
+    });
+
+    cell.style.backgroundColor = colors[assignedColors.length - 1];
+    cell.style.color = isDark(colors[assignedColors.length - 1]);
+}
