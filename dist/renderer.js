@@ -1,6 +1,5 @@
 var template = Handlebars.templates.sched;
 const output = document.getElementById("sched");
-let classes = {}
 
 const colors = [
     "#bfa3d9",
@@ -244,14 +243,16 @@ function parseSched(scheduleTime="11(R)") {
     return [periods, days];
 }
 
-function getContext() {
+function getClasses() {
+    let classes = {};
+
     chrome.storage.local.get(["info"], (result) => {
         if (result["info"] == undefined) {
             console.log("No info found in storage");
         } else {
             let info = result["info"];
-            console.log(info);
-            for (let i=0;i<Object.keys(info).length;i++) {
+            // console.log(info);
+            for (let i = 0; i < Object.keys(info).length; i++) {
                 let key = Object.keys(info)[i];
                 if (["lastUpdatedTimestamp", "name"].includes(key)) continue;
                 classes[key] = {
@@ -259,12 +260,40 @@ function getContext() {
                     "teacher": info[key]["teacher"],
                     "room": info[key]["room"],
                     "schedInfo": parseSched(info[key]["schedule"])
-                }
+                };
             }
             console.log(classes);
         }
     });
+
     return classes;
+}
+
+function getContext() {
+    let context = {
+        "times": {
+            "one": "8:00-8:50",
+            "HR": "8:54-8:58",
+            "two": "9:02-9:52",
+            "three": "9:56-10:46",
+            "four": "10:50-11:40",
+            "five": "11:44-12:34",
+            "six": "12:38-1:28",
+            "seven": "1:32-2:22",
+            "eight": "2:26-3:16",
+            "nine": "3:20-4:10"
+        },
+    };
+
+    let classes = getClasses();
+
+    let daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+
+    for (let classI of Object.keys(classes)) {
+        console.log(classI);
+    }
+
+    return context;
 }
 
 let classCells = document.getElementsByTagName("td");
