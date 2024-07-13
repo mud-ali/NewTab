@@ -217,8 +217,8 @@ let context = {
         "ten": classes["Sock"]
     }
 } */
-
-output.innerHTML = template(getContext());
+const contextInfo = await getContext();
+output.innerHTML = template(contextInfo);
 
 function parseSched(scheduleTime="11(R)") {
     // ex: 1(M)  3(M-T,R-F)   5(T-W,F)
@@ -299,14 +299,32 @@ async function getContext() {
         },
     };
 
-    let daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+    const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+    const dayAbbrevs = {
+        "M": "Monday",
+        "T": "Tuesday",
+        "W": "Wednesday",
+        "R": "Thursday",
+        "F": "Friday"
+    }
+
     const classList = await getClasses();
 
+    daysOfWeek.forEach(day => {
+        context[day] = {};
+    });
     // console.log(classList);
 
-    for (let className of classList) {
-        console.log(className);
-    }
+    classList.forEach((classData, i) => {
+        //TODO: Consider actually using all the periods provided
+        const period = classData.schedInfo[0][0];
+        const days = classData.schedInfo[1];
+
+        days.forEach(day => {
+            context[dayAbbrevs[day]][period] = classData;
+        });
+
+    })
     return context;
 }
 
