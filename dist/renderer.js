@@ -259,27 +259,28 @@ function parseSched(scheduleTime="11(R)") {
 async function getClasses() {
     let classes = [];
 
-    await chrome.storage.local.get(["info"], async (result) => {
-        if (result["info"] == undefined) {
-            console.log("No info found in storage");
-        } else {
-            let info = result["info"];
-            // console.log(info);
-            for (let i = 0; i < Object.keys(info).length; i++) {
-                let key = Object.keys(info)[i];
-                if (["lastUpdatedTimestamp", "name"].includes(key)) continue;
-                classes.push({
-                    "name": key,
-                    "teacher": info[key]["teacher"],
-                    "room": info[key]["room"],
-                    "schedInfo": parseSched(info[key]["schedule"])
-                });
+    return new Promise((resolve, reject) => {
+        chrome.storage.local.get(["info"], (result) => {
+            if (result["info"] == undefined) {
+                console.log("No info found in storage");
+            } else {
+                let info = result["info"];
+                for (let i = 0; i < Object.keys(info).length; i++) {
+                    let key = Object.keys(info)[i];
+                    if (["lastUpdatedTimestamp", "name"].includes(key)) continue;
+                    classes.push({
+                        "name": key,
+                        "teacher": info[key]["teacher"],
+                        "room": info[key]["room"],
+                        "schedInfo": parseSched(info[key]["schedule"])
+                    });
+                }
+                // console.log(classes);
             }
-            // console.log(classes);
-        }
-
-        return classes;
+            return resolve(classes);
+        });
     });
+
 }
 
 async function getContext() {
@@ -299,11 +300,13 @@ async function getContext() {
     };
 
     let daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-    const classList = getClasses();
-    getClasses().then((classes) => {
-        console.log(classes);
-    });
-    console.log(classList);
+    const classList = await getClasses();
+
+    // console.log(classList);
+
+    for (let className of classList) {
+        console.log(className);
+    }
     return context;
 }
 
