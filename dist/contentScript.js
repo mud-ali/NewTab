@@ -35,7 +35,7 @@ function scrapeClassInfo() {
         
         let cTeacher = classesData[classIndex]
             .querySelector('td[class="table-element-text-align-start"]')
-            .querySelectorAll('a')[1].innerHTML.replace("Email ", "")
+            .querySelectorAll('a[href^="mailto:"]')[0].innerHTML.replace("Email ", "")
             .trim();
 
         let cRoom = classesData[classIndex]
