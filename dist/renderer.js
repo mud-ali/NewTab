@@ -227,7 +227,17 @@ function getContext() {
             console.log("No info found in storage");
         } else {
             let info = result["info"];
-            console.log(info);
+            // console.log(info);
+            for (let i=0;i<Object.keys(info).length;i++) {
+                let key = Object.keys(info)[i];
+                classes[key] = {
+                    "name": key,
+                    "teacher": info[key]["teacher"],
+                    "room": info[key]["room"],
+                    "schedInfo": parseSched(info[key]["schedule"])
+                }
+            }
+            console.log(classes);
         }
     });
     return context;
