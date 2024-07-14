@@ -269,9 +269,9 @@ async function getClasses() {
                     let key = Object.keys(info)[i];
                     if (["lastUpdatedTimestamp", "name"].includes(key)) continue;
                     classes.push({
-                        "name": key,
-                        "teacher": info[key]["teacher"],
-                        "room": info[key]["room"],
+                        "name": key.includes("PE") ? "Gym" : key.replaceAll("_"," "),
+                        "teacher": info[key]["teacher"].includes("Lunch") ? "" : info[key]["teacher"],
+                        "room": key.includes("Lunch") ? "" : info[key]["room"],
                         "schedInfo": parseSched(info[key]["schedule"])
                     });
                 }
@@ -323,8 +323,21 @@ async function getContext() {
         days.forEach(day => {
             context[dayAbbrevs[day]][period] = classData;
         });
-
     })
+
+    daysOfWeek.forEach(day => {
+        for (let pdName of ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"]) {
+            if (context[day][pdName] == undefined) {
+                context[day][pdName] = {
+                    "name": "Free",
+                    "teacher": "",
+                    "room": "",
+                    "schedInfo": [[pdName], [day]]
+                };
+            }
+        }
+    });
+
     return context;
 }
 
