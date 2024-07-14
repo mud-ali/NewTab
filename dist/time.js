@@ -15,7 +15,7 @@ function getTime() {
 }
 
 window.addEventListener("message", (e) => {
-    nameOfUser = e.data;
+    nameOfUser = e.data.split(" ")[0] + " " + e.data.split(" ")[e.data.split(" ").length - 1];
 })
 
 getTime();
