@@ -175,7 +175,7 @@ for (let i = 0; i < classCells.length; i++) {
         continue;
     }
 
-    let color = isUsed(assignedColors, cell.innerHTML);
+    let color = isUsed(assignedColors, Array.from(cell.classList).join(" ").trim());
     if (color) {
         cell.style.backgroundColor = color;
         cell.style.color = isDark(color);
@@ -183,7 +183,7 @@ for (let i = 0; i < classCells.length; i++) {
     }
 
     assignedColors.push({
-        'val': cell.innerHTML,
+        'val': Array.from(cell.classList).join(" ").trim(),
         'color': colors[assignedColors.length]
     });
 
