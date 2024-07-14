@@ -32,6 +32,10 @@ function scrapeClassInfo() {
         let cName = classesData[classIndex]
             .querySelector('td[class="table-element-text-align-start"]')
             .innerHTML.split("&nbsp;")[0].trim();
+
+        if (Object.keys(info).includes(cName)) {
+            cName += " ";
+        }
         
         let cTeacher = classesData[classIndex]
             .querySelector('td[class="table-element-text-align-start"]')
@@ -71,16 +75,16 @@ function scrapeClassInfo() {
             cGradeVals.push(grade);
         }
 
-        let cGrades = {
+        let cDetails = {
             "schedule": classSchedule,
             "teacher": cTeacher,
             "room": cRoom
         };
         for (let i = 0; i < cGradeKeys.length; i++) {
-            cGrades[cGradeKeys[i]] = cGradeVals[i];
+            cDetails[cGradeKeys[i]] = cGradeVals[i];
         }
 
-        info[cName] = cGrades;
+        info[cName] = cDetails;
     }
 
     info["lastUpdatedTimestamp"] = new Date().getTime();
@@ -98,13 +102,6 @@ function scrapeClassInfo() {
     let setInfo = {};
     setInfo["info"] = info;
     chrome.storage.local.set(setInfo);
-
-    // from https://developer.chrome.com/docs/extensions/develop/concepts/messaging
-    // consider sending a message to a background script to rerender the newtab page internally
-    // (async () => {
-    //     const response = await chrome.runtime.sendMessage(info);
-    //     console.log(response);
-    // })();
 
     if (scraperInterval === undefined)
         scraperInterval = setInterval(scrapeClassInfo, 60_000);
