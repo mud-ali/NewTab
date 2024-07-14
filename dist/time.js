@@ -1,4 +1,5 @@
 const clock = document.getElementById("clock");
+let nameOfUser = "";
 
 function getTime() {
     const date = new Date();
@@ -9,8 +10,12 @@ function getTime() {
     const AM_PM = date.getHours() >= 12 ? "PM" : "AM";
     clock.innerHTML = `${hours}:${minutes}:${seconds} ${AM_PM}
         <br/>
-        Welcome, Mudasir!`;
+        Welcome ${nameOfUser}!`;
     setTimeout(getTime, 1000);
 }
+
+window.addEventListener("message", (e) => {
+    nameOfUser = e.data;
+})
 
 getTime();

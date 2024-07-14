@@ -89,6 +89,9 @@ async function getClasses() {
                 let info = result["info"];
                 for (let i = 0; i < Object.keys(info).length; i++) {
                     let key = Object.keys(info)[i];
+                    if (key == "name") {
+                        parent.postMessage(info[key]);
+                    }
                     if (["lastUpdatedTimestamp", "name"].includes(key)) continue;
                     classes.push({
                         "name": key.includes("PE") ? "Gym" : key.replaceAll("_"," "),
