@@ -42,7 +42,7 @@ function isDark(rgb) {
 const contextInfo = await getContext();
 output.innerHTML = template(contextInfo);
 
-function parseSched(scheduleTime="11(R)") {
+function parseSched(scheduleTime = "11(R)") {
     // ex: 1(M)  3(M-T,R-F)   5(T-W,F)
     let numMap = {
         "1": "one",
@@ -89,18 +89,20 @@ async function getClasses() {
                 let info = result["info"];
                 for (let i = 0; i < Object.keys(info).length; i++) {
                     let key = Object.keys(info)[i];
+
                     if (key == "name") {
                         parent.postMessage(info[key]);
                     }
+
                     if (["lastUpdatedTimestamp", "name"].includes(key)) continue;
+
                     classes.push({
-                        "name": key.includes("PE") ? "Gym" : key.replaceAll("_"," "),
-                        "teacher": info[key]["teacher"].includes("Lunch") ? "" : info[key]["teacher"],
-                        "room": key.includes("Lunch") ? "" : info[key]["room"],
+                        "name": key.includes("PE") ? "Gym" : key.replaceAll("_", " "),
+                        "teacher": key.includes("Lunch") ? "" : info[key]["teacher"],
+                        "room": (key.includes("PE") || key.includes("Gym") || key.includes("Lunch")) ? "" : info[key]["room"],
                         "schedInfo": parseSched(info[key]["schedule"])
                     });
                 }
-                // console.log(classes);
             }
             return resolve(classes);
         });
@@ -138,7 +140,6 @@ async function getContext() {
     daysOfWeek.forEach(day => {
         context[day] = {};
     });
-    // console.log(classList);
 
     classList.forEach((classData, i) => {
         //TODO: Consider actually using all the periods provided
@@ -171,11 +172,13 @@ let assignedColors = [];
 
 for (let i = 0; i < classCells.length; i++) {
     let cell = classCells[i];
+
     if (cell.innerHTML === "") {
         continue;
     }
 
-    let color = isUsed(assignedColors, Array.from(cell.classList).join(" ").trim());
+    const courseName = Array.from(cell.classList).join(" ").trim();
+    let color = isUsed(assignedColors, courseName);
     if (color) {
         cell.style.backgroundColor = color;
         cell.style.color = isDark(color);
@@ -183,7 +186,7 @@ for (let i = 0; i < classCells.length; i++) {
     }
 
     assignedColors.push({
-        'val': Array.from(cell.classList).join(" ").trim(),
+        'val': courseName,
         'color': colors[assignedColors.length]
     });
 
