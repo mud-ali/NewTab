@@ -2,7 +2,7 @@
     "name": "New Tab for School",
     "description": "Add schedule and quick links to new tab page from Powerschool",
     "version": "4.0.0",
-    "manifest_version": 2,
+    "manifest_version": 3,
     "permissions": [
         "tabs",
         "activeTab",
@@ -29,15 +29,11 @@
             ]
         }
     ],
-    "browser_action": {
+    "action": {
         "default_icon": {
             "32": "icon.png"
         },
         "default_title": "Newer Tab"
-    },
-    "background": {
-        "scripts": ["background.js"],
-        "persistent": false
     }
 
 }

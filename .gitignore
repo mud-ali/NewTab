@@ -1,4 +1,4 @@
 node_modules
-extension.zip
+*.zip
 *.pem
 *.crx
