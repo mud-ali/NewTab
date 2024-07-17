@@ -15,7 +15,7 @@
     "browser_specific_settings": {
         "gecko": {
             "id": "myotheremail@mudas.li",
-            "strict_min_version": "42.0"
+            "strict_min_version": "102.0"
         }
     },
     "content_scripts": [
