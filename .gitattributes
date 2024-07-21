@@ -1,0 +1,3 @@
+dist/* linguist-vendored=false
+dist/sched.precompiled.js linguist-generated
+dist/handlebars-runtime.min.js linguist-vendored
