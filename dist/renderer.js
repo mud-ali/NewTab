@@ -156,7 +156,7 @@ async function getContext() {
         for (let pdName of ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"]) {
             if (context[day][pdName] == undefined) {
                 context[day][pdName] = {
-                    "name": ["Free Period", "test"][Math.floor(Math.random() * 2)],
+                    "name": "Free",
                     "teacher": "",
                     "room": "",
                     "schedInfo": [[pdName], [day]]
