@@ -19,26 +19,36 @@ body {
     animation: fadeIn 0.5s forwards;
 }
 
+header>h1 {
+    font-size: 2.5rem;
+    margin: 4vh 0;
+    padding: 0;
+    text-align: center;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 300;
+}
+
 .link-bank {
     box-sizing: border-box;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    flex-direction: row;
+    justify-content: center;
     width: min-content;
     min-height: min-content;
-    height: 60vh;
+    min-width: 40vw;
+    width: max-content;
     border: 1px solid white;
     border-radius: 1rem;
-    padding: 1vh 1vw;
+    padding: 4vh 1vw;
     animation: linksIn 0.7s ease-out both;
-    margin: 20vh 3vw 0 4vw;
+    margin: 20vh auto 0;
 }
 
 .link-icon {
     box-sizing: content-box;
     width: 3.8rem;
     height: 3.7rem;
-    margin: 0 0.5rem;
+    margin: 0 2vw;
     vertical-align: top;
     border-radius: 1vw;
     transition: transform 0.2s ease-in-out;
