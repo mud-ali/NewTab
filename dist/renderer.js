@@ -142,12 +142,13 @@ async function getContext() {
     });
 
     classList.forEach((classData, i) => {
-        //TODO: Consider actually using all the periods provided
-        const period = classData.schedInfo[0][0];
+        const periods = classData.schedInfo[0];
         const days = classData.schedInfo[1];
 
         days.forEach(day => {
-            context[dayAbbrevs[day]][period] = classData;
+            periods.forEach(period => {
+                context[dayAbbrevs[day]][period] = classData;
+            });
         });
     })
 
@@ -155,7 +156,7 @@ async function getContext() {
         for (let pdName of ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"]) {
             if (context[day][pdName] == undefined) {
                 context[day][pdName] = {
-                    "name": "Free",
+                    "name": ["Free Period", "test"][Math.floor(Math.random() * 2)],
                     "teacher": "",
                     "room": "",
                     "schedInfo": [[pdName], [day]]
@@ -193,3 +194,36 @@ for (let i = 0; i < classCells.length; i++) {
     cell.style.backgroundColor = colors[assignedColors.length - 1];
     cell.style.color = isDark(colors[assignedColors.length - 1]);
 }
+
+(function mergeDuplicates() {
+    let rows = Array.from(document.getElementsByTagName("tr"));
+
+    for (let i = 2; i < rows.length; i++) {
+        let cells = Array.from(rows[i].getElementsByTagName("td"));
+
+        for (let j = 0; j < cells.length; j++) {
+            let cell = cells[j];
+            let prevCell = null;
+
+            for (let k = i-1; k >= 1; k--) {
+                let prevRow = Array.from(rows[k].getElementsByTagName("td"));
+                if (prevRow[j].style.display !== "none") {
+                    prevCell = prevRow[j];
+                    break;
+                }
+            }
+
+            if (prevCell === null) {
+                continue;
+            }
+
+            if (prevCell.innerHTML === cell.innerHTML) {
+                prevCell.rowSpan++;
+                cell.style.display = "none";
+                console.log("Merged");
+            } else {
+                console.log("Not Merged", "|", prevCell.innerHTML, "|", cell.innerHTML);
+            }
+        }
+    }
+})();
