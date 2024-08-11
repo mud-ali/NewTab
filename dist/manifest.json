@@ -1,5 +1,5 @@
 {
-    "name": "New Tab for School",
+    "name": "New Tab BCA",
     "description": "Add schedule and quick links to new tab page from Powerschool",
     "version": "4.0.0",
     "manifest_version": 3,
@@ -33,7 +33,7 @@
         "default_icon": {
             "32": "icon.png"
         },
-        "default_title": "Newer Tab"
+        "default_title": "New Tab Schedule"
     }
 
 }
