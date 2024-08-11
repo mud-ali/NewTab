@@ -1,11 +1,8 @@
 #!/bin/zsh
 
-rm -f ./extension.zip ~/NewTabExtension.zip
-
-cd dist
-zip -r extension ./**
+rm -f ./extension.zip ~/NewTabExtension.zip && cd dist \
+&& zip -r ~/NewTabExtension ./**
 
 # used for testing, because the file dialog opens up to ~ 
-cp extension.zip ~/NewTabExtension.zip
-mv extension.zip ..
+# val
 
