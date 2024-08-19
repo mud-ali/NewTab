@@ -1,7 +1,7 @@
 {
     "name": "New Tab for School",
     "description": "Add schedule and quick links to new tab page from Powerschool",
-    "version": "4.0.0",
+    "version": "4.0.2",
     "manifest_version": 3,
     "permissions": [
         "tabs",

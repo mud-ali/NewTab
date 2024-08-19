@@ -5,6 +5,10 @@
         {
           "version": "4.0.1",
           "update_link": "https://mud-ali.github.io/NewTabv4/firefox.xpi"
+        },
+        {
+            "version": "4.0.2",
+            "update_link": "https://mud-ali.github.io/NewTabv4/firefox-4.0.2.xpi"
         }
       ]
     }
