@@ -56,8 +56,22 @@ function parseSched(scheduleTime = "11(R)") {
         "8": "nine",
         "9": "ten"
     };
+    let periods;
+    let periodRange = scheduleTime.split("(")[0].split("-");
 
-    let periods = scheduleTime.split("(")[0].split("-").map(pd => numMap[pd]);
+    if (periodRange[0] == "HR") {
+        periods = [numMap["HR"]];
+    } else {
+        periodRange = periodRange.map(pdName => parseInt(pdName));
+        
+        if (periodRange.length == 2) {
+            periods = [...Array(periodRange[1]).keys()]
+                .map(i => numMap[String(i + periodRange[0])]);
+        } else {
+            periods = [numMap[periodRange[0]]];
+        }
+
+    }
     const daysOfWeek = ["M", "T", "W", "R", "F"];
     let daysRaw = scheduleTime.split("(")[1].replace(")", "").split(",");
 
@@ -220,9 +234,8 @@ for (let i = 0; i < classCells.length; i++) {
             if (prevCell.innerHTML === cell.innerHTML) {
                 prevCell.rowSpan++;
                 cell.style.display = "none";
-                console.log("Merged");
             } else {
-                console.log("Not Merged", "|", prevCell.innerHTML, "|", cell.innerHTML);
+                // console.log("Not Merged", "|", prevCell.innerHTML, "|", cell.innerHTML);
             }
         }
     }
