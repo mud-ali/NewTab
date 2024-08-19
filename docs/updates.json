@@ -1,0 +1,12 @@
+{
+  "addons": {
+    "{e1f282cc-2cb8-4a76-9dea-608374b89cb3}": {
+      "updates": [
+        {
+          "version": "4.0.1",
+          "update_link": "https://mud-ali.github.io/NewTabv4/firefox.xpi"
+        }
+      ]
+    }
+  }
+}
