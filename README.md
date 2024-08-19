@@ -21,9 +21,11 @@ issue on the Github issues tab.
 
 ## Firefox 
 
-For Firefox, you should be able to download and extract the same zip file from the 
-[releases](https://github.com/mud-ali/NewTabv4/releases) tab. Right click the .xpi file and open with Firefox, or drag the
-.xpi into a new firefox tab. 
+Go [here](https://mud-ali.github.io/NewTab/) and click the link in the 
+middle of the page. It should prompt you to install the extension.
+
+Alternatively, you should be able to download and extract the same zip file from the 
+[releases](https://github.com/mud-ali/NewTabv4/releases) tab. Right click the .xpi file and open with Firefox, or drag the .xpi into a new firefox tab. 
 
 
 [^1]: There is a known issue with the extension being automatically disabled on Windows that can be fixed by modifying the registry. 
